@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload</title>
+</head>
+<body>
+    <h1>File Upload</h1>
+    <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    {% if 'file' in request.files %}
+    <h2>File uploaded:</h2>
+    <p>{{ request.files['file'].filename }}</p>
+    <form method="POST" action="{{ url_for('delete') }}">
+        <input type="hidden" name="file_path" value="{{ request.files['file'].filename }}">
+        <label>Columns to delete:</label><br>
+        {% for column in columns %}
+        <input type="checkbox" name="columns" value="{{ column }}">{{ column }}<br>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Delete columns">
+    </form>
+    {% endif %}
+</body>
+</html>
